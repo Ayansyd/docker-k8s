@@ -1,0 +1,51 @@
+apiVersion: apps/v1                   #DEPLOYMENT
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels:                             #labels are for pods many replica which would map to one label
+    app: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:                      #match the deployment to the service
+      app: webapp
+  template:                           #it is the configuration of the pod
+    metadata:
+      labels:
+        app: webapp
+    spec:                   
+      containers:
+      - name: webappdb
+        image: nanajanashia/k8s-demo-app:v1.0              #this is a docker image 
+        ports:
+        - containerPort: 3000
+        env:                                 #creating environment variables username, password and DB URL
+        - name: USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-user
+        - name: USER_PWD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-password
+        - name: DB_URL
+          valueFrom:                       # Corrected from 'valurFrom'
+            configMapKeyRef: 
+              name: mongo-config
+              key: mongo-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service                 #should be same as the config data 
+spec:
+  type: NodePort                       #external ip
+  selector:
+    app: webapp
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
