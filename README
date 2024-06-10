@@ -8,7 +8,7 @@ Files
 mongo-config.yaml: ConfigMap for MongoDB connection URL
 mongo-secret.yaml: Secret for MongoDB credentials
 mongo-deployment.yaml: Deployment and Service for MongoDB
-webapp-deployment.yaml: Deployment and Service for the web application
+webapp-deployment.yaml: Deployment and Service for the web application which contains a web app as a docker image
 
 
 #commands to execute the K8s-cluster
