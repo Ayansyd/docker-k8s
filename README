@@ -1,0 +1,47 @@
+#Kubernetes Deployment for Web Application and MongoDB
+This README provides instructions to deploy a web application and a MongoDB instance using Kubernetes. The deployment includes ConfigMap and Secret configurations for environment variables.
+------------------------------------------------------------------
+#Prerequisites
+Kubernetes cluster (Minikube or any other Kubernetes setup)
+kubectl command-line tool configured to interact with the cluster
+Files
+mongo-config.yaml: ConfigMap for MongoDB connection URL
+mongo-secret.yaml: Secret for MongoDB credentials
+mongo-deployment.yaml: Deployment and Service for MongoDB
+webapp-deployment.yaml: Deployment and Service for the web application
+
+
+#commands to execute the K8s-cluster
+
+checks is the cluster is active:
+
+minicube status
+
+if not active the start the kluster:
+
+minicube start
+
+Then follow deploy each services in this specific order:
+
+kubectl apply -f mongo-config.yaml
+
+
+kubectl apply -f mongo-secret.yaml
+
+
+kubectl apply -f mongo-deployment.yaml
+
+
+kubectl apply -f webapp-deployment.yaml
+
+
+#check is the pods are created 
+kubectl get pods
+kubectl get services
+Accessing the Web Application
+Once the deployments are up and running, you can access the web application using the NodePort specified in the webapp-service. If using Minikube, you can get the Minikube IP and access the application at http://<MinikubeIP>:30000.
+
+#to get the minikube ip
+minikube ip
+if the Minikube IP is 192.168.99.100, you can access the application at http://192.168.99.100:30000.
+
